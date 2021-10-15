@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="com.eclipse.searchbar.feature">
+      <category name="Search Bar"/>
+   </feature>
+   <category-def name="Search Bar" label="Search Bar for the Eclipse"/>
+</site>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.views">
+      <category name="Search Bar" id="de.sebthom.eclipse.searchbar.category" />
+      <view id="de.sebthom.eclipse.searchbar.view.SearchBarView"
+         class="de.sebthom.eclipse.searchbar.view.SearchBarView"
+         name="Search Bar"
+         icon="src/main/resources/images/search.png"
+         category="de.sebthom.eclipse.searchbar.category" />
+   </extension>
+
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <view id="de.sebthom.eclipse.searchbar.view.SearchBarView"
+            ratio="0.3"
+            relative="org.eclipse.ui.views.ProblemView"
+            relationship="bottom" />
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view id="de.sebthom.eclipse.searchbar.view.SearchBarView"
+            ratio="0.3"
+            relative="org.eclipse.ui.views.ProblemView"
+            relationship="bottom" />
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.team.ui.TeamSynchronizingPerspective">
+         <view id="de.sebthom.eclipse.searchbar.view.SearchBarView"
+            ratio="0.3"
+            relative="org.eclipse.ui.views.ProblemView"
+            relationship="bottom" />
+      </perspectiveExtension>
+   </extension>
+
+
+   <!-- ===================================== -->
+   <!-- Marker Annotation                     -->
+   <!-- ===================================== -->
+   <extension point="org.eclipse.ui.editors.annotationTypes">
+      <type name="de.sebthom.eclipse.searchbar.defaultMarker"
+         markerType="org.eclipse.core.resources.textmarker" />
+   </extension>
+
+   <extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification annotationType="de.sebthom.eclipse.searchbar.defaultMarker"
+         label="%SearchBar_AnnotationName"
+         textPreferenceKey="searchResultIndication"
+         textPreferenceValue="false"
+         highlightPreferenceKey="searchResultHighlighting"
+         highlightPreferenceValue="true"
+         overviewRulerPreferenceKey="searchResultIndicationInOverviewRuler"
+         overviewRulerPreferenceValue="true"
+         verticalRulerPreferenceKey="searchResultIndicationInVerticalRuler"
+         verticalRulerPreferenceValue="true"
+         colorPreferenceKey="searchResultIndicationColorOne"
+         colorPreferenceValue="255,255,000"
+         presentationLayer="5"
+         showInNextPrevDropdownToolbarActionKey="showSearchResultInNextPrevDropdownToolbarAction"
+         showInNextPrevDropdownToolbarAction="true"
+         isGoToNextNavigationTargetKey="isSearchResultGoToNextNavigationTarget"
+         isGoToNextNavigationTarget="false"
+         isGoToPreviousNavigationTargetKey="isSearchResultGoToPreviousNavigationTarget"
+         isGoToPreviousNavigationTarget="false" />
+   </extension>
+
+
+   <!-- ===================================== -->
+   <!-- Key Bindings                          -->
+   <!-- ===================================== -->
+   <extension point="org.eclipse.ui.commands">
+      <command id="de.sebthom.eclipse.searchbar.command.GotoNextMatch"
+         categoryId="org.eclipse.ui.category.textEditor"
+         name= "Go To Next Match (Search Bar)"
+         description="Navigates to the next search match" />
+      <command id="de.sebthom.eclipse.searchbar.command.GotoPreviousMatch"
+         categoryId="org.eclipse.ui.category.textEditor"
+         name= "Go To Previous Match (Search Bar)"
+         description="Navigates to the previous search match" />
+      <command id="de.sebthom.eclipse.searchbar.command.OpenSearchBar"
+         categoryId="org.eclipse.ui.category.textEditor"
+         name= "Open Search Bar (Search Bar)"
+         description="Opens the Search Bar" />
+   </extension>
+
+   <extension point="org.eclipse.ui.handlers">
+      <handler
+         commandId="de.sebthom.eclipse.searchbar.command.OpenSearchBar"
+         class="de.sebthom.eclipse.searchbar.command.OpenSearchBarCommand" />
+      <handler
+         commandId="de.sebthom.eclipse.searchbar.command.GotoNextMatch"
+         class="de.sebthom.eclipse.searchbar.command.GotoNextMatchCommand" />
+      <handler
+         commandId="de.sebthom.eclipse.searchbar.command.GotoPreviousMatch"
+         class="de.sebthom.eclipse.searchbar.command.GotoPreviousMatchCommand" />
+   </extension>
+
+   <extension point="org.eclipse.ui.bindings">
+      <key sequence="M3+F"
+         commandId="de.sebthom.eclipse.searchbar.command.OpenSearchBar"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+      <key sequence="M3+N"
+         commandId="de.sebthom.eclipse.searchbar.command.GotoNextMatch"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+      <key sequence="M3+P"
+         commandId="de.sebthom.eclipse.searchbar.command.GotoPreviousMatch"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+    </extension>
+
+
+   <!-- ===================================== -->
+   <!-- Preferences                           -->
+   <!-- ===================================== -->
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="de.sebthom.eclipse.searchbar.prefs.SearchBarPreferenceInitializer"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages">
+      <page id="de.sebthom.eclipse.searchbar.prefs.PreferencePage"
+         name="Search Bar"
+         class="de.sebthom.eclipse.searchbar.prefs.SearchBarPreferencePage"/>
+   </extension>
+</plugin>
