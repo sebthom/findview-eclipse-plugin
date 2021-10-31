@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.views">
+      <category name="%FindView_PluginName" id="de.sebthom.eclipse.findview.category" />
+      <view id="de.sebthom.eclipse.findview.ui.FindView"
+         class="de.sebthom.eclipse.findview.ui.FindViewPart"
+         name="%FindView_ViewName"
+         icon="src/main/resources/images/search.png"
+         category="de.sebthom.eclipse.findview.category" />
+   </extension>
+
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <view id="de.sebthom.eclipse.findview.ui.FindView"
+            ratio="0.3"
+            relative="org.eclipse.ui.views.ProblemView"
+            relationship="bottom" />
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view id="de.sebthom.eclipse.findview.ui.FindView"
+            ratio="0.3"
+            relative="org.eclipse.ui.views.ProblemView"
+            relationship="bottom" />
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.team.ui.TeamSynchronizingPerspective">
+         <view id="de.sebthom.eclipse.findview.ui.FindView"
+            ratio="0.3"
+            relative="org.eclipse.ui.views.ProblemView"
+            relationship="bottom" />
+      </perspectiveExtension>
+   </extension>
+
+
+   <!-- ===================================== -->
+   <!-- Marker Annotation                     -->
+   <!-- ===================================== -->
+   <extension point="org.eclipse.ui.editors.annotationTypes">
+      <type name="de.sebthom.eclipse.findview.defaultMarker"
+         markerType="org.eclipse.core.resources.textmarker" />
+   </extension>
+
+   <extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification annotationType="de.sebthom.eclipse.findview.defaultMarker"
+         label="%FindView_AnnotationName"
+         textPreferenceKey="searchResultIndication"
+         textPreferenceValue="false"
+         highlightPreferenceKey="searchResultHighlighting"
+         highlightPreferenceValue="true"
+         overviewRulerPreferenceKey="searchResultIndicationInOverviewRuler"
+         overviewRulerPreferenceValue="true"
+         verticalRulerPreferenceKey="searchResultIndicationInVerticalRuler"
+         verticalRulerPreferenceValue="true"
+         colorPreferenceKey="searchResultIndicationColorOne"
+         colorPreferenceValue="255,255,000"
+         presentationLayer="5"
+         showInNextPrevDropdownToolbarActionKey="showSearchResultInNextPrevDropdownToolbarAction"
+         showInNextPrevDropdownToolbarAction="true"
+         isGoToNextNavigationTargetKey="isSearchResultGoToNextNavigationTarget"
+         isGoToNextNavigationTarget="false"
+         isGoToPreviousNavigationTargetKey="isSearchResultGoToPreviousNavigationTarget"
+         isGoToPreviousNavigationTarget="false" />
+   </extension>
+
+
+   <!-- ===================================== -->
+   <!-- Key Bindings                          -->
+   <!-- ===================================== -->
+   <extension point="org.eclipse.ui.commands">
+      <command id="de.sebthom.eclipse.findview.command.GotoNextMatch"
+         categoryId="org.eclipse.ui.category.textEditor"
+         name= "Go To Next Match (Find/Replace View)"
+         description="Navigates to the next search match" />
+      <command id="de.sebthom.eclipse.findview.command.GotoPreviousMatch"
+         categoryId="org.eclipse.ui.category.textEditor"
+         name= "Go To Previous Match (Find/Replace View)"
+         description="Navigates to the previous search match" />
+      <command id="de.sebthom.eclipse.findview.command.OpenFindView"
+         categoryId="org.eclipse.ui.category.textEditor"
+         name= "Open Find/Replace View"
+         description="Opens the Find/Replace view" />
+   </extension>
+
+   <extension point="org.eclipse.ui.handlers">
+      <handler
+         commandId="de.sebthom.eclipse.findview.command.OpenFindView"
+         class="de.sebthom.eclipse.findview.command.OpenFindViewCommand" />
+      <handler
+         commandId="de.sebthom.eclipse.findview.command.GotoNextMatch"
+         class="de.sebthom.eclipse.findview.command.GotoNextMatchCommand" />
+      <handler
+         commandId="de.sebthom.eclipse.findview.command.GotoPreviousMatch"
+         class="de.sebthom.eclipse.findview.command.GotoPreviousMatchCommand" />
+   </extension>
+
+   <extension point="org.eclipse.ui.bindings">
+      <key sequence="M1+M3+F"
+         commandId="de.sebthom.eclipse.findview.command.OpenFindView"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+      <key sequence="M1+M3+N"
+         commandId="de.sebthom.eclipse.findview.command.GotoNextMatch"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+      <key sequence="M1+M3+P"
+         commandId="de.sebthom.eclipse.findview.command.GotoPreviousMatch"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+    </extension>
+
+
+   <!-- ===================================== -->
+   <!-- Preferences                           -->
+   <!-- ===================================== -->
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="de.sebthom.eclipse.findview.prefs.PluginPreferenceInitializer"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages">
+      <page id="de.sebthom.eclipse.findview.prefs.PreferencePage"
+         name="%FindView_PluginName"
+         class="de.sebthom.eclipse.findview.prefs.PluginPreferencePage"/>
+   </extension>
+</plugin>
