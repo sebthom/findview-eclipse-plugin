@@ -30,6 +30,19 @@
       <update label="Find/Replace View - Latest" url="https://raw.githubusercontent.com/sebthom/findview-eclipse-plugin/updatesite/"/>
    </url>
 
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.platform" version="4.17.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.apache.commons.lang3" version="3.12.0" match="greaterOrEqual"/>
+      <import plugin="net.sf.jstuff.core" version="5.18.0" match="greaterOrEqual"/>
+      <import plugin="de.sebthom.eclipse.commons" />
+      <import feature="de.sebthom.eclipse.commons.feature" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="de.sebthom.eclipse.findview"
          download-size="0"
