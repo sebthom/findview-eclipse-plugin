@@ -44,7 +44,7 @@ public class SearchReplaceEngine {
    private static final ConcurrentMap<IWorkbenchWindow, SearchReplaceEngine> INSTANCES_BY_WINDOW = new ConcurrentHashMap<>();
 
    public static SearchReplaceEngine get() {
-      return INSTANCES_BY_WINDOW.computeIfAbsent(UI.getWorkbenchWindow(), window -> {
+      return INSTANCES_BY_WINDOW.computeIfAbsent(UI.getActiveWorkbenchWindow(), window -> {
 
          final var engine = new SearchReplaceEngine();
 

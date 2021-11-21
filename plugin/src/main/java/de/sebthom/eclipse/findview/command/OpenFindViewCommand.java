@@ -23,7 +23,7 @@ public class OpenFindViewCommand extends AbstractHandler {
 
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException {
-      final var page = UI.getWorkbenchPage();
+      final var page = UI.getActiveWorkbenchPage();
       if (page == null)
          return null;
 

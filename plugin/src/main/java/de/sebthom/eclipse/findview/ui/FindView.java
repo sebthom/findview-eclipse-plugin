@@ -80,7 +80,7 @@ public final class FindView extends Composite {
       final var closeButton = new ToolItem(closeButtonTB, SWT.PUSH);
       closeButton.setImage(Plugin.get().getSharedImage(Constants.IMAGE_CLOSE_VIEW));
       closeButtonTB.pack();
-      Buttons.onSelected(closeButton, () -> UI.getWorkbenchPage().hideView(findViewPart));
+      Buttons.onSelected(closeButton, () -> UI.getActiveWorkbenchPage().hideView(findViewPart));
 
       final var lblSearchText = new Label(this, SWT.NONE);
       lblSearchText.setText(Messages.FindView_FindLabel);
@@ -103,7 +103,7 @@ public final class FindView extends Composite {
          switch (ev.keyCode) {
             case SWT.ESC:
                if (PluginPreferences.isCloseWithEsc()) {
-                  UI.getWorkbenchPage().hideView(findViewPart);
+                  UI.getActiveWorkbenchPage().hideView(findViewPart);
                   break;
                }
 
@@ -198,7 +198,7 @@ public final class FindView extends Composite {
          switch (ev.keyCode) {
             case SWT.ESC:
                if (PluginPreferences.isCloseWithEsc()) {
-                  UI.getWorkbenchPage().hideView(findViewPart);
+                  UI.getActiveWorkbenchPage().hideView(findViewPart);
                   break;
                }
 
