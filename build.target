@@ -19,12 +19,15 @@
             <repository location="https://raw.githubusercontent.com/sebthom/eclipse-commons/updatesite/"/>
             <unit id="de.sebthom.eclipse.commons.feature.feature.group" version="0.0.0"/>
         </location>
-
         <location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-            <groupId>net.sf.jstuff</groupId>
-            <artifactId>jstuff-core</artifactId>
-            <version>5.18.0</version>
-            <type>jar</type>
+            <dependencies>
+                <dependency>
+                    <groupId>net.sf.jstuff</groupId>
+                    <artifactId>jstuff-core</artifactId>
+                    <version>5.19.0</version>
+                    <type>jar</type>
+                </dependency>
+            </dependencies>
         </location>
     </locations>
 </target>
