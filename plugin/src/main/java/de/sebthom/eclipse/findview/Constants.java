@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 by Sebastian Thomschke and contributors
+ * Copyright 2021-2022 by Sebastian Thomschke and contributors
  * SPDX-License-Identifier: EPL-2.0
  */
 package de.sebthom.eclipse.findview;
