@@ -12,14 +12,14 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import de.sebthom.eclipse.commons.ui.Editors;
 import de.sebthom.eclipse.commons.ui.listener.WindowListener;
-import net.sf.jstuff.core.ref.ObservableRef;
+import net.sf.jstuff.core.ref.MutableObservableRef;
 
 /**
  * @author Sebastian Thomschke
  */
 public final class ActiveTextEditorTracker implements IPartListener2, WindowListener {
 
-   public static final ObservableRef<ITextEditor> ACTIVE_TEXT_EDITOR = new ObservableRef<>();
+   public static final MutableObservableRef<ITextEditor> ACTIVE_TEXT_EDITOR = MutableObservableRef.of(null);
 
    private static final ActiveTextEditorTracker INSTANCE = new ActiveTextEditorTracker();
 

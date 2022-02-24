@@ -27,7 +27,7 @@ import de.sebthom.eclipse.commons.ui.listener.PageListener;
 import de.sebthom.eclipse.findview.prefs.PluginPreferences;
 import net.sf.jstuff.core.Strings;
 import net.sf.jstuff.core.collection.CollectionUtils;
-import net.sf.jstuff.core.ref.ObservableRef;
+import net.sf.jstuff.core.ref.MutableObservableRef;
 
 /**
  * @author Sebastian Thomschke
@@ -62,9 +62,9 @@ public class SearchReplaceEngine {
 
    private final Markers markers = new Markers("de.sebthom.eclipse.findview.defaultMarker");
 
-   public final ObservableRef<String> searchString = ObservableRef.of("");
-   public final ObservableRef<String> replaceWithString = ObservableRef.of("");
-   public final ObservableRef<List<Position>> matches = ObservableRef.of(Collections.emptyList());
+   public final MutableObservableRef<String> searchString = MutableObservableRef.of("");
+   public final MutableObservableRef<String> replaceWithString = MutableObservableRef.of("");
+   public final MutableObservableRef<List<Position>> matches = MutableObservableRef.of(Collections.emptyList());
 
    public SearchReplaceEngine() {
       searchString.subscribe(this::search);
