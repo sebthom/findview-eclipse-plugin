@@ -37,7 +37,7 @@
 
    <properties>
       <java.version>11</java.version>
-      <tycho.version>2.7.3</tycho.version>
+      <tycho.version>2.7.4</tycho.version>
 
       <!-- to prevent dozen of warnings like:
       [WARNING] System artifact: p2.eclipse-plugin:org.eclipse.mylyn.commons.notifications.ui:jar:1.17.2.v20200813-0821:system has no file attached
@@ -74,6 +74,12 @@
                <configuration>
                   <optimize>true</optimize>
                </configuration>
+            </plugin>
+            <plugin>
+               <!-- https://github.com/eclipse-tycho/tycho/blob/master/RELEASE_NOTES.md#support-for-pde-declarative-component-annotation-processing -->
+               <groupId>org.eclipse.tycho</groupId>
+               <artifactId>tycho-ds-plugin</artifactId>
+               <version>${tycho.version}</version>
             </plugin>
             <plugin>
                <!-- https://www.eclipse.org/tycho/sitedocs/tycho-packaging-plugin/plugin-info.html -->
