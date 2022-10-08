@@ -4,6 +4,7 @@
  */
 package de.sebthom.eclipse.findview.ui;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -19,7 +20,7 @@ import net.sf.jstuff.core.ref.MutableObservableRef;
  */
 public final class ActiveTextEditorTracker implements IPartListener2, WindowListener {
 
-   public static final MutableObservableRef<ITextEditor> ACTIVE_TEXT_EDITOR = MutableObservableRef.of(null);
+   public static final MutableObservableRef<@Nullable ITextEditor> ACTIVE_TEXT_EDITOR = MutableObservableRef.of(null);
 
    private static final ActiveTextEditorTracker INSTANCE = new ActiveTextEditorTracker();
 

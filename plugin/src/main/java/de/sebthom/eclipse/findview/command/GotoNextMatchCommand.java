@@ -7,6 +7,7 @@ package de.sebthom.eclipse.findview.command;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jdt.annotation.Nullable;
 
 import de.sebthom.eclipse.findview.SearchReplaceEngine;
 
@@ -16,7 +17,7 @@ import de.sebthom.eclipse.findview.SearchReplaceEngine;
 public final class GotoNextMatchCommand extends AbstractHandler {
 
    @Override
-   public Object execute(final ExecutionEvent event) throws ExecutionException {
+   public @Nullable Object execute(final ExecutionEvent event) throws ExecutionException {
       SearchReplaceEngine.get().gotoNextMatch();
       return null;
    }

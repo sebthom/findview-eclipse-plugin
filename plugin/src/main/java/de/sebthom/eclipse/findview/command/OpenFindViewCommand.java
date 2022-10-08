@@ -7,6 +7,7 @@ package de.sebthom.eclipse.findview.command;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.ui.PartInitException;
 
@@ -22,7 +23,7 @@ import net.sf.jstuff.core.Strings;
 public class OpenFindViewCommand extends AbstractHandler {
 
    @Override
-   public Object execute(final ExecutionEvent event) throws ExecutionException {
+   public @Nullable Object execute(final ExecutionEvent event) throws ExecutionException {
       final var page = UI.getActiveWorkbenchPage();
       if (page == null)
          return null;
@@ -47,7 +48,7 @@ public class OpenFindViewCommand extends AbstractHandler {
       final var selection = editor.getSelectionProvider().getSelection();
       if (selection instanceof TextSelection) {
          final var selectedText = ((TextSelection) selection).getText();
-         if (Strings.isNotEmpty(selectedText)) {
+         if (selectedText != null && !selectedText.isEmpty()) {
             SearchReplaceEngine.get().searchString.set(Strings.substringBefore(selectedText, Strings.LF));
          }
       }

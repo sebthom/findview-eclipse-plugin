@@ -4,6 +4,8 @@
  */
 package de.sebthom.eclipse.findview;
 
+import static net.sf.jstuff.core.validation.NullAnalysisHelper.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
@@ -44,7 +47,7 @@ public class SearchReplaceEngine {
    private static final ConcurrentMap<IWorkbenchWindow, SearchReplaceEngine> INSTANCES_BY_WINDOW = new ConcurrentHashMap<>();
 
    public static SearchReplaceEngine get() {
-      return INSTANCES_BY_WINDOW.computeIfAbsent(UI.getActiveWorkbenchWindow(), window -> {
+      return INSTANCES_BY_WINDOW.computeIfAbsent(asNonNull(UI.getActiveWorkbenchWindow()), window -> {
 
          final var engine = new SearchReplaceEngine();
 
@@ -77,7 +80,12 @@ public class SearchReplaceEngine {
          matches.set(Collections.emptyList());
          return;
       }
-      markers.setMarkers(Editors.getAnnotationModel(editor), matches.get(), new NullProgressMonitor());
+      final var annoModels = Editors.getAnnotationModel(editor);
+      if (annoModels == null) {
+         matches.set(Collections.emptyList());
+         return;
+      }
+      markers.setMarkers(annoModels, matches.get(), new NullProgressMonitor());
    }
 
    public synchronized void gotoNextMatch() {
@@ -160,11 +168,8 @@ public class SearchReplaceEngine {
       return replaceNextMatch(FindReplaceTarget.get(), Direction.FORWARD);
    }
 
-   private boolean replaceNextMatch(final FindReplaceTarget target, final Direction direction) {
-      if (target == null)
-         return false;
-
-      if (selectNextMatch(target, direction) == NOT_FOUND)
+   private boolean replaceNextMatch(final @Nullable FindReplaceTarget target, final Direction direction) {
+      if (target == null || selectNextMatch(target, direction) == NOT_FOUND)
          return false;
 
       target.replaceSelection(replaceWithString.get());
@@ -221,13 +226,11 @@ public class SearchReplaceEngine {
       }
    }
 
-   private int selectNextMatch(final FindReplaceTarget target, final Direction direction) {
+   private int selectNextMatch(final @Nullable FindReplaceTarget target, final Direction direction) {
       if (target == null)
          return NOT_FOUND;
 
       final var selPos = target.getSelection();
-      if (selPos == null)
-         return NOT_FOUND;
 
       final var selOffset = selPos.x;
       final var selLength = selPos.y;

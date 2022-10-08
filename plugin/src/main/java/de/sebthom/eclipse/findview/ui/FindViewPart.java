@@ -4,6 +4,8 @@
  */
 package de.sebthom.eclipse.findview.ui;
 
+import static net.sf.jstuff.core.validation.NullAnalysisHelper.*;
+
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +20,7 @@ public final class FindViewPart extends ViewPart {
 
    public static final String ID = FindView.class.getName();
 
-   private FindView content;
+   private FindView content = eventuallyNonNull();
 
    @Override
    public void createPartControl(final Composite parent) {

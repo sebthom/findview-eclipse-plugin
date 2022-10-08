@@ -4,6 +4,9 @@
  */
 package de.sebthom.eclipse.findview.ui;
 
+import static net.sf.jstuff.core.validation.NullAnalysisHelper.*;
+
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -39,8 +42,8 @@ import net.sf.jstuff.core.concurrent.Threads;
 public final class FindView extends Composite {
 
    final Text searchText;
-   private final Color searchText_defaultBG;
-   private final Color searchText_defaultFG;
+   private final @Nullable Color searchText_defaultBG;
+   private final @Nullable Color searchText_defaultFG;
    private final Color searchText_noResultsBG;
    private final Color searchText_noResultsFG;
 
@@ -80,7 +83,7 @@ public final class FindView extends Composite {
       final var closeButton = new ToolItem(closeButtonTB, SWT.PUSH);
       closeButton.setImage(Plugin.get().getSharedImage(Constants.IMAGE_CLOSE_VIEW));
       closeButtonTB.pack();
-      Buttons.onSelected(closeButton, () -> UI.getActiveWorkbenchPage().hideView(findViewPart));
+      Buttons.onSelected(closeButton, () -> asNonNull(UI.getActiveWorkbenchPage()).hideView(findViewPart));
 
       final var lblSearchText = new Label(this, SWT.NONE);
       lblSearchText.setText(Messages.FindView_FindLabel);
@@ -103,7 +106,7 @@ public final class FindView extends Composite {
          switch (ev.keyCode) {
             case SWT.ESC:
                if (PluginPreferences.isCloseWithEsc()) {
-                  UI.getActiveWorkbenchPage().hideView(findViewPart);
+                  asNonNull(UI.getActiveWorkbenchPage()).hideView(findViewPart);
                   break;
                }
 
@@ -198,7 +201,7 @@ public final class FindView extends Composite {
          switch (ev.keyCode) {
             case SWT.ESC:
                if (PluginPreferences.isCloseWithEsc()) {
-                  UI.getActiveWorkbenchPage().hideView(findViewPart);
+                  asNonNull(UI.getActiveWorkbenchPage()).hideView(findViewPart);
                   break;
                }
 
@@ -247,10 +250,7 @@ public final class FindView extends Composite {
    }
 
    private void onAnyControlFocused(final Event event) {
-      if (anyChildHasFocus)
-         return;
-
-      if (!(event.widget instanceof Control))
+      if (anyChildHasFocus || !(event.widget instanceof Control))
          return;
 
       for (var c = (Control) event.widget; c != null; c = c.getParent()) {
@@ -263,10 +263,7 @@ public final class FindView extends Composite {
    }
 
    private void onAnyControlLostFocused(final Event event) {
-      if (!anyChildHasFocus)
-         return;
-
-      if (!(event.widget instanceof Control))
+      if (!anyChildHasFocus || !(event.widget instanceof Control))
          return;
 
       for (var c = (Control) event.widget; c != null; c = c.getParent()) {
