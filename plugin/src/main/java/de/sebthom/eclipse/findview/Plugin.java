@@ -35,7 +35,7 @@ public class Plugin extends AbstractEclipsePlugin {
     */
    public static Plugin get() {
       Assert.notNull(instance, "Default plugin instance is still null.");
-      return asNonNull(instance);
+      return asNonNullUnsafe(instance);
    }
 
    public static PluginLogger log() {
