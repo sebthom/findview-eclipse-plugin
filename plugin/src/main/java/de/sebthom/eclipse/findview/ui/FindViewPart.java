@@ -20,7 +20,7 @@ public final class FindViewPart extends ViewPart {
 
    public static final String ID = FindView.class.getName();
 
-   private FindView content = eventuallyNonNull();
+   private FindView content = lazyNonNull();
 
    @Override
    public void createPartControl(final Composite parent) {

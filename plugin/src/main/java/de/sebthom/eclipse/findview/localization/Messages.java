@@ -20,16 +20,16 @@ public final class Messages {
 
    // CHECKSTYLE:IGNORE .* FOR NEXT 100 LINES
 
-   public static String FindView_NoMatchNotFound = eventuallyNonNull();
-   public static String FindView_GotoNextButton = eventuallyNonNull();
-   public static String FindView_GotoPrevButton = eventuallyNonNull();
-   public static String FindView_ReplaceButton = eventuallyNonNull();
-   public static String FindView_ReplaceAllButton = eventuallyNonNull();
-   public static String FindView_HighlightAll = eventuallyNonNull();
-   public static String FindView_MatchCase = eventuallyNonNull();
-   public static String FindView_MatchRegEx = eventuallyNonNull();
-   public static String FindView_MatchWholeWord = eventuallyNonNull();
-   public static String FindView_FindLabel = eventuallyNonNull();
+   public static String FindView_NoMatchNotFound = lazyNonNull();
+   public static String FindView_GotoNextButton = lazyNonNull();
+   public static String FindView_GotoPrevButton = lazyNonNull();
+   public static String FindView_ReplaceButton = lazyNonNull();
+   public static String FindView_ReplaceAllButton = lazyNonNull();
+   public static String FindView_HighlightAll = lazyNonNull();
+   public static String FindView_MatchCase = lazyNonNull();
+   public static String FindView_MatchRegEx = lazyNonNull();
+   public static String FindView_MatchWholeWord = lazyNonNull();
+   public static String FindView_FindLabel = lazyNonNull();
 
    static {
       MessagesInitializer.initializeMessages(BUNDLE_NAME, Messages.class);
