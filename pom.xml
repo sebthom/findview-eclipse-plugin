@@ -162,7 +162,6 @@
                               <artifactId>tycho-packaging-plugin</artifactId>
                               <versionRange>[1.0,)</versionRange>
                               <goals>
-                                 <goal>build-qualifier</goal>
                                  <goal>build-qualifier-aggregator</goal>
                                  <goal>validate-id</goal>
                                  <goal>validate-version</goal>
