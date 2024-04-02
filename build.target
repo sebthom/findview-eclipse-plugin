@@ -9,14 +9,14 @@
         </location>
 
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-            <!-- Eclipse 2020-09 aka 4.17 is the first release requiring JRE 11 https://wiki.eclipse.org/Eclipse/Installation#Eclipse_4.17_.282020-09.29 -->
-            <repository location="https://download.eclipse.org/releases/2020-09/"/>
+            <!-- Eclipse 2022-09 aka 4.25 is the first release requiring JRE 17 https://wiki.eclipse.org/Eclipse/Installation#Eclipse_4.25_.282022-09.29 -->
+            <repository location="https://download.eclipse.org/releases/2022-09/"/>
             <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
             <unit id="org.eclipse.sdk.ide" version="0.0.0"/>
         </location>
 
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-            <repository location="https://download.eclipse.org/eclipse/updates/4.17/"/>
+            <repository location="https://download.eclipse.org/eclipse/updates/4.25/"/>
             <unit id="org.eclipse.test.feature.group" version="0.0.0"/>
         </location>
 
@@ -30,7 +30,7 @@
                 <dependency>
                     <groupId>net.sf.jstuff</groupId>
                     <artifactId>jstuff-core</artifactId>
-                    <version>7.6.0</version>
+                    <version>7.9.0</version>
                     <type>jar</type>
                 </dependency>
             </dependencies>
