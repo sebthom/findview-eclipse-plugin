@@ -36,7 +36,7 @@
             </dependencies>
         </location>
 
-        <location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+        <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="false" missingManifest="generate" type="Maven">
             <dependencies>
                 <dependency>
                     <groupId>com.vegardit.no-npe</groupId>

@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2021-2022 by Sebastian Thomschke and contributors.
+   SPDX-FileCopyrightText: © Sebastian Thomschke and contributors.
+   SPDX-FileContributor: Sebastian Thomschke
    SPDX-License-Identifier: EPL-2.0
-
-   @author Sebastian Thomschke
+   SPDX-ArtifactOfProjectHomePage: https://github.com/sebthom/findview-eclipse-plugin
 -->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -16,29 +16,59 @@
       <version>RELEASE</version>
    </parent>
 
-   <name>findview-eclipse-parent</name>
    <groupId>de.sebthom.eclipse.findview</groupId>
    <artifactId>de.sebthom.eclipse.findview.parent</artifactId>
    <version>1.0.0-SNAPSHOT</version>
    <packaging>pom</packaging>
+
+   <name>findview-eclipse-parent</name>
+   <url>https://github.com/sebthom/findview-eclipse-plugin</url>
    <inceptionYear>2021</inceptionYear>
    <organization>
       <!-- used as Specification/Implementation-Vendor in MANIFEST.MF -->
       <name>Sebastian Thomschke</name>
       <url>https://github.com/sebthom</url>
    </organization>
-
    <licenses>
       <license>
          <name>Eclipse Public License 2.0</name>
          <distribution>repo</distribution>
-         <url>https://spdx.org/licenses/EPL-2.0.html</url>
+         <url>https://spdx.org/licenses/EPL-2.0</url>
       </license>
    </licenses>
 
+
+   <modules>
+      <module>plugin</module>
+      <module>feature</module>
+      <module>updatesite</module>
+   </modules>
+
+
+   <scm>
+      <!-- https://maven.apache.org/scm/git.html -->
+      <url>https://github.com/sebthom/findview-eclipse-plugin</url>
+      <connection>scm:git:https://github.com/sebthom/findview-eclipse-plugin.git</connection>
+      <developerConnection>scm:git:https://github.com/sebthom/findview-eclipse-plugin.git</developerConnection>
+      <tag>HEAD</tag>
+   </scm>
+
+
+   <issueManagement>
+      <system>github.com</system>
+      <url>https://github.com/sebthom/findview-eclipse-plugin/issues</url>
+   </issueManagement>
+
+
+   <ciManagement>
+      <system>github.com</system>
+      <url>https://github.com/sebthom/findview-eclipse-plugin/actions</url>
+   </ciManagement>
+
+
    <properties>
       <java.version>17</java.version>
-      <tycho.version>4.0.7</tycho.version>
+      <tycho.version>4.0.8</tycho.version>
 
       <!-- to prevent dozen of warnings like:
       [WARNING] System artifact: p2.eclipse-plugin:org.eclipse.mylyn.commons.notifications.ui:jar:1.17.2.v20200813-0821:system has no file attached
@@ -48,13 +78,6 @@
       <skip.enforcer.ban-duplicate-classes>true</skip.enforcer.ban-duplicate-classes>
       <skip.enforcer.enforce-bytecode-version>true</skip.enforcer.enforce-bytecode-version>
    </properties>
-
-
-   <modules>
-      <module>plugin</module>
-      <module>feature</module>
-      <module>updatesite</module>
-   </modules>
 
 
    <build>
@@ -79,6 +102,10 @@
                <version>${tycho.version}</version>
                <configuration>
                   <optimize>true</optimize>
+                  <compilerArgs>
+                     <arg>-annotationpath</arg>
+                     <arg>CLASSPATH</arg> <!-- read Eclipse External null Annotations from JARs on the classpath -->
+                  </compilerArgs>
                </configuration>
             </plugin>
             <plugin>
@@ -88,7 +115,7 @@
                <version>${tycho.version}</version>
             </plugin>
             <plugin>
-               <!-- https://www.eclipse.org/tycho/sitedocs/tycho-packaging-plugin/plugin-info.html -->
+               <!-- https://tycho.eclipseprojects.io/doc/latest/tycho-packaging-plugin/plugin-info.html -->
                <groupId>org.eclipse.tycho</groupId>
                <artifactId>tycho-packaging-plugin</artifactId>
                <version>${tycho.version}</version>
@@ -99,20 +126,20 @@
                </configuration>
             </plugin>
             <plugin>
-               <!-- https://www.eclipse.org/tycho/sitedocs/tycho-p2/tycho-p2-plugin/plugin-info.html -->
+               <!-- https://tycho.eclipseprojects.io/doc/latest/tycho-p2-plugin/plugin-info.html -->
                <groupId>org.eclipse.tycho</groupId>
                <artifactId>tycho-p2-plugin</artifactId>
                <version>${tycho.version}</version>
             </plugin>
             <plugin>
-               <!-- https://www.eclipse.org/tycho/sitedocs/tycho-surefire-plugin/plugin-info.html -->
+               <!-- https://tycho.eclipseprojects.io/doc/latest/tycho-surefire-plugin/plugin-info.html -->
                <groupId>org.eclipse.tycho</groupId>
                <artifactId>tycho-surefire-plugin</artifactId>
                <version>${tycho.version}</version>
             </plugin>
             <plugin>
                <!--
-                 https://www.eclipse.org/tycho/sitedocs/tycho-release/tycho-versions-plugin/plugin-info.html
+                 https://tycho.eclipseprojects.io/doc/latest/tycho-versions-plugin/plugin-info.html
                  mvn -Dtycho.mode=maven tycho-versions:update-eclipse-metadata
                -->
                <groupId>org.eclipse.tycho</groupId>
@@ -213,7 +240,7 @@
             <extensions>true</extensions>
          </plugin>
          <plugin>
-            <!-- https://www.eclipse.org/tycho/sitedocs/target-platform-configuration/target-platform-configuration-mojo.html -->
+            <!-- https://tycho.eclipseprojects.io/doc/latest/target-platform-configuration/target-platform-mojo.html -->
             <groupId>org.eclipse.tycho</groupId>
             <artifactId>target-platform-configuration</artifactId>
             <version>${tycho.version}</version>
@@ -259,4 +286,30 @@
          </plugin>
       </plugins>
    </build>
+
+   <profiles>
+      <profile>
+         <id>disable-tycho-packaging-plugin-if-executed-in-eclipse</id>
+         <activation>
+            <property>
+               <name>eclipse.application</name>
+            </property>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <!-- disable building of a new jar on each file change from within Eclipse -->
+                  <groupId>org.eclipse.tycho</groupId>
+                  <artifactId>tycho-packaging-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>default-package-plugin</id>
+                        <phase>none</phase>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
 </project>
