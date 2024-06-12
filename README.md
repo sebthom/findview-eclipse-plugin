@@ -7,7 +7,6 @@
 
 **Feedback and high-quality pull requests are  highly welcome!**
 
-1. [About](#about)
 1. [What is it?](#what-is-it)
 1. [Installation](#installation)
 1. [Building from Sources](#building)
