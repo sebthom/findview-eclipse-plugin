@@ -4,7 +4,7 @@
  */
 package de.sebthom.eclipse.findview.localization;
 
-import static net.sf.jstuff.core.validation.NullAnalysisHelper.*;
+import static net.sf.jstuff.core.validation.NullAnalysisHelper.lateNonNull;
 
 import de.sebthom.eclipse.commons.localization.MessagesInitializer;
 
@@ -20,16 +20,16 @@ public final class Messages {
 
    // CHECKSTYLE:IGNORE .* FOR NEXT 100 LINES
 
-   public static String FindView_NoMatchNotFound = lazyNonNull();
-   public static String FindView_GotoNextButton = lazyNonNull();
-   public static String FindView_GotoPrevButton = lazyNonNull();
-   public static String FindView_ReplaceButton = lazyNonNull();
-   public static String FindView_ReplaceAllButton = lazyNonNull();
-   public static String FindView_HighlightAll = lazyNonNull();
-   public static String FindView_MatchCase = lazyNonNull();
-   public static String FindView_MatchRegEx = lazyNonNull();
-   public static String FindView_MatchWholeWord = lazyNonNull();
-   public static String FindView_FindLabel = lazyNonNull();
+   public static String FindView_NoMatchNotFound = lateNonNull();
+   public static String FindView_GotoNextButton = lateNonNull();
+   public static String FindView_GotoPrevButton = lateNonNull();
+   public static String FindView_ReplaceButton = lateNonNull();
+   public static String FindView_ReplaceAllButton = lateNonNull();
+   public static String FindView_HighlightAll = lateNonNull();
+   public static String FindView_MatchCase = lateNonNull();
+   public static String FindView_MatchRegEx = lateNonNull();
+   public static String FindView_MatchWholeWord = lateNonNull();
+   public static String FindView_FindLabel = lateNonNull();
 
    static {
       MessagesInitializer.initializeMessages(BUNDLE_NAME, Messages.class);
