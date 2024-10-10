@@ -20,7 +20,7 @@ import net.sf.jstuff.core.ref.MutableObservableRef;
  */
 public final class ActiveTextEditorTracker implements IPartListener2, WindowListener {
 
-   public static final MutableObservableRef<@Nullable ITextEditor> ACTIVE_TEXT_EDITOR = MutableObservableRef.of(null);
+   public static final MutableObservableRef<@Nullable ITextEditor> ACTIVE_TEXT_EDITOR = MutableObservableRef.ofNullable(null);
 
    private static final ActiveTextEditorTracker INSTANCE = new ActiveTextEditorTracker();
 
