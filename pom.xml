@@ -13,7 +13,7 @@
    <parent>
       <groupId>com.vegardit.maven</groupId>
       <artifactId>vegardit-maven-parent</artifactId>
-      <version>6.1.3</version>
+      <version>6.1.13</version>
    </parent>
 
    <groupId>de.sebthom.eclipse.findview</groupId>
@@ -84,7 +84,7 @@
       <dependency>
          <groupId>com.vegardit.no-npe</groupId>
          <artifactId>no-npe-eea-all</artifactId>
-         <version>[1.2.0,)</version>
+         <version>[1.3.7,)</version>
          <scope>provided</scope>
       </dependency>
    </dependencies>
