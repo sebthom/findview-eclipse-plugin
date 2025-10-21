@@ -4,7 +4,7 @@
  */
 package de.sebthom.eclipse.findview.ui;
 
-import static net.sf.jstuff.core.validation.NullAnalysisHelper.*;
+import static net.sf.jstuff.core.validation.NullAnalysisHelper.asNonNull;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -337,7 +337,6 @@ public final class FindView extends Composite {
          searchText.setBackground(searchText_defaultBG);
          searchText.setForeground(searchText_defaultFG);
 
-         lblInfoMessage.setImage(null);
          lblInfoMessage.setImage(Plugin.get().getSharedImage(Constants.IMAGE_STATUS_INFO));
          lblInfoMessage.setText(matches + " matches");
          lblInfoMessage.setVisible(true);
