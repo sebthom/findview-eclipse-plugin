@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -150,7 +151,9 @@ public class SearchReplaceEngine {
          return;
 
       final var selProvider = editor.getSelectionProvider();
-      final var sel = (TextSelection) selProvider.getSelection();
+      final var selection = selProvider.getSelection();
+      if (!(selection instanceof ITextSelection sel))
+         return;
       if (sel.isEmpty() || sel.getLength() == 0)
          return;
 
