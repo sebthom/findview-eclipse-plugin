@@ -1,10 +1,12 @@
 /*
- * Copyright 2021-2022 by Sebastian Thomschke and contributors
+ * SPDX-FileCopyrightText: © Sebastian Thomschke and contributors.
+ * SPDX-FileContributor: Sebastian Thomschke
  * SPDX-License-Identifier: EPL-2.0
+ * SPDX-ArtifactOfProjectHomePage: https://github.com/sebthom/findview-eclipse-plugin
  */
 package de.sebthom.eclipse.findview;
 
-import static net.sf.jstuff.core.validation.NullAnalysisHelper.*;
+import static net.sf.jstuff.core.validation.NullAnalysisHelper.asNonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -152,9 +154,7 @@ public class SearchReplaceEngine {
 
       final var selProvider = editor.getSelectionProvider();
       final var selection = selProvider.getSelection();
-      if (!(selection instanceof ITextSelection sel))
-         return;
-      if (sel.isEmpty() || sel.getLength() == 0)
+      if (!(selection instanceof final ITextSelection sel) || sel.isEmpty() || sel.getLength() == 0)
          return;
 
       try {

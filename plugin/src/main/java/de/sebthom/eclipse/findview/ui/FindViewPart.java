@@ -1,6 +1,8 @@
 /*
- * Copyright 2021-2022 by Sebastian Thomschke and contributors
+ * SPDX-FileCopyrightText: © Sebastian Thomschke and contributors.
+ * SPDX-FileContributor: Sebastian Thomschke
  * SPDX-License-Identifier: EPL-2.0
+ * SPDX-ArtifactOfProjectHomePage: https://github.com/sebthom/findview-eclipse-plugin
  */
 package de.sebthom.eclipse.findview.ui;
 
