@@ -6,7 +6,7 @@
  */
 package de.sebthom.eclipse.findview.ui;
 
-import static net.sf.jstuff.core.validation.NullAnalysisHelper.asNonNull;
+import static net.sf.jstuff.core.validation.NullAnalysisHelper.*;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -52,6 +52,9 @@ public final class FindView extends Composite {
    private final Button btnFindPrev;
    private final Button btnFindNext;
    private final Button btnMatchWholeWord;
+   private final Button btnMatchCase;
+   private final Button btnMatchRegEx;
+   private final Button btnHighlightAll;
    private final CLabel lblInfoMessage;
 
    private final Text replaceWithText;
@@ -62,6 +65,8 @@ public final class FindView extends Composite {
    private volatile boolean mnemonicsVisible = true;
 
    private final SearchReplaceEngine searchReplaceEngine;
+
+   private FindHistory history = lateNonNull();
 
    public FindView(final Composite parent, final FindViewPart findViewPart) {
       super(parent, SWT.NONE);
@@ -119,6 +124,9 @@ public final class FindView extends Composite {
                break;
             case SWT.CR:
                searchReplaceEngine.gotoNextMatch();
+               if (PluginPreferences.isHistoryAutoAdd()) {
+                  addHistoryEntryFromCurrentState();
+               }
                break;
          }
       });
@@ -133,15 +141,25 @@ public final class FindView extends Composite {
       btnFindNext.setImage(Plugin.get().getSharedImage(Constants.IMAGE_ARROW_DOWN));
       btnFindNext.setText(Messages.FindView_GotoNextButton);
       btnFindNext.setEnabled(false);
-      Buttons.onSelected(btnFindNext, searchReplaceEngine::gotoNextMatch);
+      Buttons.onSelected(btnFindNext, () -> {
+         searchReplaceEngine.gotoNextMatch();
+         if (PluginPreferences.isHistoryAutoAdd()) {
+            addHistoryEntryFromCurrentState();
+         }
+      });
 
       btnFindPrev = new Button(this, SWT.PUSH | SWT.NO_FOCUS);
       btnFindPrev.setImage(Plugin.get().getSharedImage(Constants.IMAGE_ARROW_UP));
       btnFindPrev.setText(Messages.FindView_GotoPrevButton);
       btnFindPrev.setEnabled(false);
-      Buttons.onSelected(btnFindPrev, searchReplaceEngine::gotoPreviousMatch);
+      Buttons.onSelected(btnFindPrev, () -> {
+         searchReplaceEngine.gotoPreviousMatch();
+         if (PluginPreferences.isHistoryAutoAdd()) {
+            addHistoryEntryFromCurrentState();
+         }
+      });
 
-      final var btnHighlightAll = new Button(this, SWT.CHECK | SWT.NO_FOCUS);
+      btnHighlightAll = new Button(this, SWT.CHECK | SWT.NO_FOCUS);
       btnHighlightAll.setText(Messages.FindView_HighlightAll);
       btnHighlightAll.setSelection(PluginPreferences.isHighlightAll());
       Buttons.onSelected(btnHighlightAll, () -> {
@@ -149,7 +167,7 @@ public final class FindView extends Composite {
          PluginPreferences.save();
       });
 
-      final var btnMatchCase = new Button(this, SWT.CHECK | SWT.NO_FOCUS);
+      btnMatchCase = new Button(this, SWT.CHECK | SWT.NO_FOCUS);
       btnMatchCase.setText(Messages.FindView_MatchCase);
       btnMatchCase.setSelection(PluginPreferences.isMatchCase());
       Buttons.onSelected(btnMatchCase, () -> {
@@ -173,7 +191,6 @@ public final class FindView extends Composite {
       lblInfoMessage.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
 
       btnMatchWholeWord = new Button(this, SWT.CHECK | SWT.NO_FOCUS);
-      btnMatchWholeWord.setEnabled(!PluginPreferences.isMatchRegEx());
       btnMatchWholeWord.setText(Messages.FindView_MatchWholeWord);
       btnMatchWholeWord.setSelection(PluginPreferences.isMatchWholeWord());
       Buttons.onSelected(btnMatchWholeWord, () -> {
@@ -181,7 +198,7 @@ public final class FindView extends Composite {
          PluginPreferences.save();
       });
 
-      final var btnMatchRegEx = new Button(this, SWT.CHECK | SWT.NO_FOCUS);
+      btnMatchRegEx = new Button(this, SWT.CHECK | SWT.NO_FOCUS);
       btnMatchRegEx.setText(Messages.FindView_MatchRegEx);
       btnMatchRegEx.setSelection(PluginPreferences.isMatchRegEx());
       Buttons.onSelected(btnMatchRegEx, () -> {
@@ -219,13 +236,19 @@ public final class FindView extends Composite {
       btnReplace.setText(Messages.FindView_ReplaceButton);
       btnReplace.setEnabled(false);
       btnReplace.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-      Buttons.onSelected(btnReplace, searchReplaceEngine::replaceCurrentSelection);
+      Buttons.onSelected(btnReplace, () -> {
+         searchReplaceEngine.replaceCurrentSelection();
+         addHistoryEntryFromCurrentState();
+      });
 
       btnReplaceAll = new Button(this, SWT.PUSH | SWT.NO_FOCUS);
       btnReplaceAll.setText(Messages.FindView_ReplaceAllButton);
       btnReplaceAll.setEnabled(false);
       btnReplaceAll.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-      Buttons.onSelected(btnReplaceAll, searchReplaceEngine::replaceAll);
+      Buttons.onSelected(btnReplaceAll, () -> {
+         searchReplaceEngine.replaceAll();
+         addHistoryEntryFromCurrentState();
+      });
 
       PluginPreferences.addListener(this::onPreferencesChanged);
       searchReplaceEngine.matches.subscribe(this::updateControlStates);
@@ -236,6 +259,16 @@ public final class FindView extends Composite {
          searchText.setText(r);
          replaceWithText.setText(s);
       });
+
+      history = new FindHistory(this, 8, he -> {
+         searchText.setText(he.find);
+         replaceWithText.setText(he.replace);
+         PluginPreferences.setMatchCase(he.matchCase);
+         PluginPreferences.setMatchRegEx(he.matchRegEx);
+         PluginPreferences.setMatchWholeWord(he.matchWholeWord);
+         PluginPreferences.setHighlightAll(he.highlightAll);
+         PluginPreferences.save();
+      }, this::addHistoryEntryFromCurrentState);
 
       getDisplay().addFilter(SWT.FocusIn, this::onAnyControlFocused);
       getDisplay().addFilter(SWT.FocusOut, this::onAnyControlLostFocused);
@@ -249,6 +282,17 @@ public final class FindView extends Composite {
       PluginPreferences.removeListener(this::onPreferencesChanged);
       searchReplaceEngine.matches.unsubscribe(this::updateControlStates);
       super.dispose();
+   }
+
+   private void addHistoryEntryFromCurrentState() {
+      if (isDisposed())
+         return;
+      final var find = searchText.getText();
+      if (Strings.isEmpty(find))
+         return;
+      final var replace = replaceWithText.getText();
+      history.addEntry(new FindHistory.HistoryEntry(find, replace, PluginPreferences.isMatchCase(), PluginPreferences.isMatchWholeWord(),
+         PluginPreferences.isMatchRegEx(), PluginPreferences.isHighlightAll()));
    }
 
    private void onAnyControlFocused(final Event event) {
@@ -279,9 +323,19 @@ public final class FindView extends Composite {
    private void onPreferencesChanged(final PropertyChangeEvent ev) {
       switch (ev.getProperty()) {
          case PluginPreferences.PREF_MATCH_REGEX:
-            btnMatchWholeWord.setEnabled(!PluginPreferences.isMatchRegEx());
+            btnMatchRegEx.setSelection(PluginPreferences.isMatchRegEx());
+            break;
+         case PluginPreferences.PREF_MATCH_CASE:
+            btnMatchCase.setSelection(PluginPreferences.isMatchCase());
+            break;
+         case PluginPreferences.PREF_MATCH_WHOLEWORD:
+            btnMatchWholeWord.setSelection(PluginPreferences.isMatchWholeWord());
+            break;
+         case PluginPreferences.PREF_HIGHLIGHT_ALL:
+            btnHighlightAll.setSelection(PluginPreferences.isHighlightAll());
             break;
       }
+      updateControlStates();
    }
 
    @Override

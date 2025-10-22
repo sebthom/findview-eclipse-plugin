@@ -24,6 +24,8 @@ public final class PluginPreferences {
    public static final String PREF_MATCH_CASE = "matchCase";
    public static final String PREF_MATCH_REGEX = "matchRegEx";
    public static final String PREF_MATCH_WHOLEWORD = "matchWholeWord";
+   public static final String PREF_HISTORY = "history";
+   public static final String PREF_HISTORY_AUTO_ADD = "historyAutoAdd";
 
    static final IPersistentPreferenceStore STORE = Plugin.get().getPreferenceStore();
 
@@ -79,10 +81,38 @@ public final class PluginPreferences {
 
    public static void setMatchRegEx(final boolean value) {
       STORE.setValue(PREF_MATCH_REGEX, value);
+      if (value) {
+         STORE.setValue(PREF_MATCH_WHOLEWORD, false);
+      }
    }
 
    public static void setMatchWholeWord(final boolean value) {
       STORE.setValue(PREF_MATCH_WHOLEWORD, value);
+      if (value) {
+         STORE.setValue(PREF_MATCH_REGEX, false);
+      }
+   }
+
+   public static boolean isHistoryAutoAdd() {
+      return STORE.getBoolean(PREF_HISTORY_AUTO_ADD);
+   }
+
+   public static void setHistoryAutoAdd(final boolean value) {
+      STORE.setValue(PREF_HISTORY_AUTO_ADD, value);
+   }
+
+   /**
+    * Returns the serialized history string.
+    */
+   public static String getHistory() {
+      return STORE.getString(PREF_HISTORY);
+   }
+
+   /**
+    * Persists the serialized history string.
+    */
+   public static void setHistory(final String value) {
+      STORE.setValue(PREF_HISTORY, value);
    }
 
    private PluginPreferences() {
